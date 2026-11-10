@@ -1,0 +1,4 @@
+# Promote the tested image by selecting its existing SHA tag.
+# Namespace testing gets its own Pod, Service, and database volume.
+image:
+  tag: sha-7952483082e8f0f6d5c14e966d13d60fb9a4bcae
