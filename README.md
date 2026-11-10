@@ -50,7 +50,32 @@ A category containing dishes cannot be deleted.
 .\mvnw.cmd test
 ```
 
-This first stage is for local learning. Authentication, Docker, GitHub Actions, Helm, and Kubernetes come later. Browser requests go through the Angular development proxy.
+This application is for local learning. Browser requests go through the Angular development proxy. Authentication, Helm, and Kubernetes come later.
+
+## Docker
+
+Start Docker Desktop and build from this directory:
+
+```powershell
+docker build -t restaurant-menu:local .
+```
+
+The first stage uses the Maven Wrapper to test and build the JAR. The final stage runs it with Java 17 as a non-root user.
+
+```powershell
+docker run -d --name restaurant-menu -p 8081:8081 -v restaurant-menu-data:/app/data restaurant-menu:local
+```
+
+Stop the IntelliJ menu-service instance first to free port 8081, or use `-p 7001:8081` and access the container through `localhost:7001` instead.
+The named volume keeps the container's H2 database after the container is removed. It starts separately from your IntelliJ database. Only one container should use this H2 volume at a time.
+
+Inspect the API at http://localhost:8081/api/categories (or port 7001 if you changed the mapping).
+
+```powershell
+docker logs restaurant-menu
+docker stop restaurant-menu
+docker rm restaurant-menu
+```
 
 ## Verification in the creation session
 
